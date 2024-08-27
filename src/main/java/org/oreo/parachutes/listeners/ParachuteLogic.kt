@@ -19,14 +19,15 @@ import org.oreo.parachutes.Parachutes
 import org.oreo.parachutes.items.ItemManager
 
 
-class ParachutePlayerTouchGround(private val plugin: Parachutes) : Listener{
+class ParachuteLogic(private val plugin: Parachutes) : Listener{
 
-    private val minParachuteHeight = 30
+    private val minParachuteHeight = plugin.config.getInt("parachute-min-height")
+    private val parachuteDrain = plugin.config.getInt("parachute-drain")
+    private val parachutePenalty = plugin.config.getInt("parachute-open-penalty")
 
     @EventHandler
     fun onPlayerMove(e: PlayerMoveEvent) {
         val player = e.player
-
 
 
         if (!(e.from.y > e.to.y)) {  // Player is moving downwards
@@ -42,7 +43,7 @@ class ParachutePlayerTouchGround(private val plugin: Parachutes) : Listener{
             }
 
             if (!isTooCloseToGround(player, player.world) && !player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
-                decreaseItemDurability(player, 400)
+                decreaseItemDurability(player, parachutePenalty)
                 if (itemMeta != null) {
                     itemMeta.setCustomModelData(11) // Make the parachute open
                     itemInHand.setItemMeta(itemMeta)
@@ -51,7 +52,7 @@ class ParachutePlayerTouchGround(private val plugin: Parachutes) : Listener{
 
             if (player.hasPotionEffect(PotionEffectType.SLOW_FALLING) || !isTooCloseToGround(player, player.world)) {
                 player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_FALLING, 20 * 1, 1, true, false))
-                decreaseItemDurability(player, 4)
+                decreaseItemDurability(player, parachuteDrain)
             } else {
                 sendHotbarMessage(player, "You are too close to the ground to deploy")
                 if (itemMeta != null) {

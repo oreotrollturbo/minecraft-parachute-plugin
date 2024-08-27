@@ -1,0 +1,8 @@
+
+parachute-min-height: 30 #How many blocks above the ground a player needs to be to de able to deploy
+
+# NOTE : the parachute is a retextured netherite sword that cant deal damage so its durability is that
+# of a vanilla netherite sword which is 2031
+
+parachute-drain: 4 #This drains 4 durability every time the falling event is triggered  (basically every tick)
+parachute-open-penalty: 400 #This is a one time durability penalty for when the parachute is opened

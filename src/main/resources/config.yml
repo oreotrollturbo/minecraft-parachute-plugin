@@ -6,3 +6,6 @@ parachute-min-height: 30 #How many blocks above the ground a player needs to be 
 
 parachute-drain: 4 #This drains 4 durability every time the falling event is triggered  (basically every tick)
 parachute-open-penalty: 400 #This is a one time durability penalty for when the parachute is opened
+
+parachute-closed-model: 10 #The custom model data number for the "default" parachute model
+parachute-open-model: 11  #The custom model data number for the "opened" parachute model

@@ -25,6 +25,12 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
     private val parachuteDrain = plugin.config.getInt("parachute-drain")
     private val parachutePenalty = plugin.config.getInt("parachute-open-penalty")
 
+
+     //This one isnt used yet but ill keep it here in case any changes happen
+    private val parachuteClosedModel = plugin.config.getInt("parachute-closed-model")
+
+    private val parachuteOpenModel = plugin.config.getInt("parachute-open-model")
+
     @EventHandler
     fun onPlayerMove(e: PlayerMoveEvent) {
         val player = e.player
@@ -44,7 +50,7 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
             if (!isTooCloseToGround(player, player.world) && !player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
                 decreaseItemDurability(player, parachutePenalty)
                 if (itemMeta != null) {
-                    itemMeta.setCustomModelData(11) // Make the parachute open
+                    itemMeta.setCustomModelData(parachuteOpenModel) // Make the parachute open
                     itemInHand.setItemMeta(itemMeta)
                 }
             }
@@ -55,7 +61,7 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
             } else {
                 sendHotbarMessage(player, "You are too close to the ground to deploy")
                 if (itemMeta != null) {
-                    itemMeta.setCustomModelData(11)
+                    itemMeta.setCustomModelData(parachuteOpenModel)
                     itemInHand.setItemMeta(itemMeta)
                 }
             }

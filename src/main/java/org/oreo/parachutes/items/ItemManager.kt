@@ -13,6 +13,8 @@ object ItemManager {
     private var plugin: JavaPlugin? = null
     var parachute: ItemStack? = null
 
+    private var closedModel = plugin?.config?.getInt("parachute-closed-model")
+
     /**
      * Item initialisation
      */
@@ -39,7 +41,7 @@ object ItemManager {
         if (meta != null) {
             meta.setDisplayName("§eParachute")
 
-            meta.setCustomModelData(10) //Setting the correct textures
+            meta.setCustomModelData(closedModel) //Setting the correct textures
 
             val lore: MutableList<String> = ArrayList()
             lore.add("§7experimetntal")

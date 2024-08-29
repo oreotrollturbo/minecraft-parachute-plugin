@@ -29,7 +29,6 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
     fun onPlayerMove(e: PlayerMoveEvent) {
         val player = e.player
 
-
         if (!(e.from.y > e.to.y)) {  // Player is moving downwards
             return
         }

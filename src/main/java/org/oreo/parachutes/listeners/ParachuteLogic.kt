@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.inventory.PrepareItemCraftEvent
+import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
@@ -66,7 +67,7 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
             }
 
             if (player.hasPotionEffect(PotionEffectType.SLOW_FALLING) || !isTooCloseToGround(player, player.world)) {
-                player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_FALLING, 20 * 1, 1, true, false))
+                player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_FALLING, 1 * 5, 1, true, false))
                 decreaseItemDurability(player, parachuteDrain)
             } else if (!player.hasPotionEffect(PotionEffectType.SLOW_FALLING) && isTooCloseToGround(player, player.world) && !isOnGround(player)) {
                 sendHotbarMessage(player, "You are too close to the ground to deploy")
@@ -163,6 +164,25 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
 
         if (isHoldingParachute(player)){
             e.isCancelled = true
+        }
+    }
+
+    @EventHandler
+    fun switchFromParachuteEvent(e:PlayerItemHeldEvent){
+
+        val player = e.player
+
+        val previousItemItem: ItemStack? = player.inventory.getItem(e.previousSlot)
+
+        if (previousItemItem != null && isParachute(previousItemItem)) {
+
+            val itemMeta = previousItemItem.itemMeta
+
+            if (itemMeta != null) {
+                itemMeta.setCustomModelData(parachuteClosedModel)
+                previousItemItem.setItemMeta(itemMeta)
+            }
+
         }
     }
 

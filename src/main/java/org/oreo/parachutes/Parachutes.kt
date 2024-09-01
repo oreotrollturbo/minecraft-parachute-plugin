@@ -8,7 +8,6 @@ import org.oreo.parachutes.listeners.ParachuteLogic
 
 class Parachutes : JavaPlugin() {
 
-    public val playersParachuting: MutableList<Player> = ArrayList()
 
     override fun onEnable() {
         // Plugin startup logic
@@ -16,7 +15,7 @@ class Parachutes : JavaPlugin() {
 
         ItemManager.init(this)
 
-        getCommand("parachute")!!.setExecutor(GetParachute())
+        getCommand("parachute")!!.setExecutor(GetParachute(plugin = this))
 
         saveDefaultConfig()
     }

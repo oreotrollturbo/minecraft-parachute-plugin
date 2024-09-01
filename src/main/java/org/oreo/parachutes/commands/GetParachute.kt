@@ -4,9 +4,11 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.oreo.parachutes.Parachutes
 import org.oreo.parachutes.items.ItemManager
 
-class GetParachute : CommandExecutor {
+
+class GetParachute(private val plugin: Parachutes) : CommandExecutor {
     /**
      * Gives the player a siege ladder if the player is OP
      */

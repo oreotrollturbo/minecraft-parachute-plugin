@@ -43,6 +43,16 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
             val itemInHand = player.inventory.itemInMainHand
             var itemMeta = itemInHand.itemMeta
 
+            if (!player.isOnGround && isOnGround(player)) {
+                player.removePotionEffect(PotionEffectType.SLOW_FALLING)
+
+                if (itemMeta != null) {
+                    itemMeta.setCustomModelData(parachuteClosedModel)
+                    itemInHand.setItemMeta(itemMeta)
+                }
+                return
+            }
+
             if (itemMeta == null) {
                 itemMeta = Bukkit.getItemFactory().getItemMeta(itemInHand.type)
             }
@@ -58,17 +68,9 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
             if (player.hasPotionEffect(PotionEffectType.SLOW_FALLING) || !isTooCloseToGround(player, player.world)) {
                 player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_FALLING, 20 * 1, 1, true, false))
                 decreaseItemDurability(player, parachuteDrain)
-            } else {
+            } else if (!player.hasPotionEffect(PotionEffectType.SLOW_FALLING) && isTooCloseToGround(player, player.world) && isOnGround(player)) {
                 sendHotbarMessage(player, "You are too close to the ground to deploy")
-                if (itemMeta != null) {
-                    itemMeta.setCustomModelData(parachuteOpenModel)
-                    itemInHand.setItemMeta(itemMeta)
-                }
             }
-        }
-
-        if (!player.isOnGround && isOnGround(player)) {
-            player.removePotionEffect(PotionEffectType.SLOW_FALLING)
         }
     }
 

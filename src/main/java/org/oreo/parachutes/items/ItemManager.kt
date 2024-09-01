@@ -13,13 +13,16 @@ object ItemManager {
     private var plugin: JavaPlugin? = null
     var parachute: ItemStack? = null
 
-    private var closedModel = plugin?.config?.getInt("parachute-closed-model")
+    private var closedModel: Int? = null
+    private var parachuteMinHeight: Int? = null
 
     /**
      * Item initialisation
      */
     fun init(pluginInstance: JavaPlugin?) {
         plugin = pluginInstance
+        closedModel = plugin?.config?.getInt("parachute-closed-model")
+        parachuteMinHeight = plugin?.config?.getInt("parachute-min-height")
         createParachute()
     }
 
@@ -32,7 +35,7 @@ object ItemManager {
 
     /**
      * @return the item
-     * Makes the siege ladder item , gives it the enchantment glow description and lore
+     * Makes the parachute item , gives it the enchantment glow description and lore
      */
     fun createParachuteItem(): ItemStack {
         val item = ItemStack(Material.NETHERITE_SWORD, 1)
@@ -44,8 +47,8 @@ object ItemManager {
             meta.setCustomModelData(closedModel) //Setting the correct textures
 
             val lore: MutableList<String> = ArrayList()
-            lore.add("§7experimetntal")
-            lore.add("§5\"idfk\"") //The funni
+            lore.add("§7Hold this item while above $parachuteMinHeight blocks for a safe landing")
+            lore.add("§5\"oreo shute\"") //The funni
             meta.lore = lore
 
             meta.addEnchant(Enchantment.LUCK, 1, true)
@@ -56,7 +59,10 @@ object ItemManager {
             val key = NamespacedKey(plugin!!, "unique_id")
             data.set(key, PersistentDataType.STRING, UUID.randomUUID().toString())
 
+            meta.setCustomModelData(closedModel)
+
             item.setItemMeta(meta)
+
         }
         return item
     }

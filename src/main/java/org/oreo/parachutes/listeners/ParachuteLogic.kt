@@ -68,7 +68,7 @@ class ParachuteLogic(private val plugin: Parachutes) : Listener{
             if (player.hasPotionEffect(PotionEffectType.SLOW_FALLING) || !isTooCloseToGround(player, player.world)) {
                 player.addPotionEffect(PotionEffect(PotionEffectType.SLOW_FALLING, 20 * 1, 1, true, false))
                 decreaseItemDurability(player, parachuteDrain)
-            } else if (!player.hasPotionEffect(PotionEffectType.SLOW_FALLING) && isTooCloseToGround(player, player.world) && isOnGround(player)) {
+            } else if (!player.hasPotionEffect(PotionEffectType.SLOW_FALLING) && isTooCloseToGround(player, player.world) && !isOnGround(player)) {
                 sendHotbarMessage(player, "You are too close to the ground to deploy")
             }
         }
